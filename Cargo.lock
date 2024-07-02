@@ -539,28 +539,6 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.15.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "405bbd46590a441abe5db3e5c8af005aa42e640803fecb51912703e93e4ce8d3"
-dependencies = [
- "ahash 0.8.9",
- "anyhow",
- "chrono",
- "either",
- "indexmap 2.2.6",
- "itertools 0.12.0",
- "nom",
- "once_cell",
- "quote",
- "serde",
- "serde_json",
- "string_cache",
- "string_cache_codegen",
- "thiserror",
-]
-
-[[package]]
-name = "browserslist-rs"
 version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fdf0ca73de70c3da94e4194e4a01fe732378f55d47cf4c0588caab22a0dbfa14"
@@ -2312,15 +2290,6 @@ dependencies = [
 
 [[package]]
 name = "itertools"
-version = "0.12.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25db6b064527c5d482d0423354fcd07a89a2dfe07b67892e62411946db7f07b0"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
@@ -3088,7 +3057,7 @@ dependencies = [
  "lazy_static",
  "once_cell",
  "pathdiff",
- "preset_env_base 0.4.13",
+ "preset_env_base",
  "react_remove_properties",
  "regex",
  "remove_console",
@@ -3775,31 +3744,13 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "preset_env_base"
-version = "0.4.13"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08ccd15679953ae0d5fa716af78b58c0bfdc69a0534bfe9ea423abd1eaaf527b"
-dependencies = [
- "ahash 0.8.9",
- "anyhow",
- "browserslist-rs 0.15.0",
- "dashmap",
- "from_variant",
- "once_cell",
- "semver 1.0.23",
- "serde",
- "st-map",
- "tracing",
-]
-
-[[package]]
-name = "preset_env_base"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ecfcd4aefde8c1ed1ac4f1118ca5021763a717ba87f5508db7785e864dac1d8"
 dependencies = [
  "ahash 0.8.9",
  "anyhow",
- "browserslist-rs 0.16.0",
+ "browserslist-rs",
  "dashmap",
  "from_variant",
  "once_cell",
@@ -4996,32 +4947,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
-name = "string_cache"
-version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f91138e76242f575eb1d3b38b4f1362f10d3a43f47d182a5b359af488a02293b"
-dependencies = [
- "new_debug_unreachable",
- "once_cell",
- "parking_lot",
- "phf_shared 0.10.0",
- "precomputed-hash",
- "serde",
-]
-
-[[package]]
-name = "string_cache_codegen"
-version = "0.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6bb30289b722be4ff74a408c3cc27edeaad656e06cb1fe8fa9231fa59c728988"
-dependencies = [
- "phf_generator 0.10.0",
- "phf_shared 0.10.0",
- "proc-macro2",
- "quote",
-]
-
-[[package]]
 name = "string_enum"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5065,14 +4990,14 @@ dependencies = [
 
 [[package]]
 name = "styled_jsx"
-version = "0.73.25"
+version = "0.73.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f1c9d55895dbf33cad349e2c1bee26e1a193386420490a133bbb2b919e2bd3d"
+checksum = "e9518da8ffdf78718b9545ddbf8237a901957b465603b98e1ffcc46006365ade"
 dependencies = [
  "anyhow",
  "lightningcss",
  "parcel_selectors",
- "preset_env_base 0.4.13",
+ "preset_env_base",
  "serde",
  "swc_common",
  "swc_css_ast",
@@ -5477,7 +5402,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cc9930655060121c32d829e13fe4fa11294c03e71eb84c22e039703c929dcdf7"
 dependencies = [
  "once_cell",
- "preset_env_base 0.5.0",
+ "preset_env_base",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5883,7 +5808,7 @@ dependencies = [
  "dashmap",
  "indexmap 2.2.6",
  "once_cell",
- "preset_env_base 0.5.0",
+ "preset_env_base",
  "rustc-hash",
  "semver 1.0.23",
  "serde",
@@ -7339,7 +7264,7 @@ dependencies = [
  "async-recursion",
  "async-trait",
  "auto-hash-map",
- "browserslist-rs 0.16.0",
+ "browserslist-rs",
  "futures",
  "indexmap 1.9.3",
  "lazy_static",
