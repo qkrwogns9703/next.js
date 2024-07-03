@@ -654,7 +654,7 @@ async function renderToHTMLOrFlightImpl(
     nextFontManifest,
     supportsDynamicResponse,
     serverActions,
-    appDirDevErrorLogger,
+    onRequestError,
     assetPrefix = '',
     enableTainting,
   } = renderOpts
@@ -744,12 +744,30 @@ async function renderToHTMLOrFlightImpl(
   // intentionally silence the error logger in this case to avoid double
   // logging.
   const silenceStaticGenerationErrors = isRoutePPREnabled && isStaticGeneration
+  const requestContext = {
+    url: req.url,
+    method: req.method,
+    headers: req.headers,
+  }
+
+  const errorContext = {
+    routerKind: 'APP_PAGE',
+    routePath: pagePath,
+    routeType: 'render',
+    revalidateReason: '',
+    renderType: '',
+    renderSource: '',
+  }
+
+  function onReactStreamRenderError(err: Error) {
+    onRequestError?.(err, requestContext, errorContext)
+  }
 
   const serverComponentsErrorHandler = createErrorHandler({
     source: ErrorHandlerSource.serverComponents,
     dev,
     isNextExport,
-    errorLogger: appDirDevErrorLogger,
+    onReactStreamRenderError,
     digestErrorsMap,
     silenceLogger: silenceStaticGenerationErrors,
   })
@@ -757,7 +775,7 @@ async function renderToHTMLOrFlightImpl(
     source: ErrorHandlerSource.flightData,
     dev,
     isNextExport,
-    errorLogger: appDirDevErrorLogger,
+    onReactStreamRenderError,
     digestErrorsMap,
     silenceLogger: silenceStaticGenerationErrors,
   })
@@ -765,7 +783,7 @@ async function renderToHTMLOrFlightImpl(
     source: ErrorHandlerSource.html,
     dev,
     isNextExport,
-    errorLogger: appDirDevErrorLogger,
+    onReactStreamRenderError,
     digestErrorsMap,
     allCapturedErrors,
     silenceLogger: silenceStaticGenerationErrors,
