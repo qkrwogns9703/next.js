@@ -577,7 +577,7 @@ export default abstract class Server<
         clientTraceMetadata: this.nextConfig.experimental.clientTraceMetadata,
         after: this.nextConfig.experimental.after ?? false,
       },
-      onRequestError: this.instrumentationOnRequestError,
+      onRequestError: this.instrumentationOnRequestError.bind(this),
     }
 
     // Initialize next/config with the environment configuration
@@ -820,11 +820,11 @@ export default abstract class Server<
     return matchers
   }
 
-  protected instrumentationOnRequestError = async (
+  protected async instrumentationOnRequestError(
     err: any,
     req: any,
     context: any
-  ) => {
+  ) {
     if (this.instrumentation) {
       this.instrumentation.onRequestError?.(err, req, context)
     }
@@ -2409,6 +2409,7 @@ export default abstract class Server<
               isRevalidate: isSSG,
               waitUntil: this.getWaitUntil(),
               onClose: res.onClose.bind(res),
+              onRequestError: this.renderOpts.onRequestError,
             },
           }
 

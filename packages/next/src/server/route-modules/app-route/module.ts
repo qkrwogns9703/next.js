@@ -56,6 +56,7 @@ import { StaticGenBailoutError } from '../../../client/components/static-generat
 import { isStaticGenEnabled } from './helpers/is-static-gen-enabled'
 import { trackDynamicDataAccessed } from '../../app-render/dynamic-rendering'
 import { ReflectAdapter } from '../../web/spec-extension/adapters/reflect'
+import type { RenderOptsPartial } from '../../app-render/types'
 
 /**
  * The AppRouteModule is the type of the module exported by the bundled App
@@ -68,7 +69,8 @@ export type AppRouteModule = typeof import('../../../build/templates/app-route')
  * handler for app routes.
  */
 export interface AppRouteRouteHandlerContext extends RouteModuleHandleContext {
-  renderOpts: StaticGenerationContext['renderOpts']
+  renderOpts: StaticGenerationContext['renderOpts'] &
+    Pick<RenderOptsPartial, 'onRequestError'>
   prerenderManifest: DeepReadonly<PrerenderManifest>
 }
 
@@ -387,12 +389,25 @@ export class AppRouteRouteModule extends RouteModule<
                     } catch (err) {
                       error = err
                     }
-                    if (!(res instanceof Response)) {
+                    if (!(res instanceof Response) && !error) {
                       error = Error(
                         `No response is returned from route handler '${this.resolvedPagePath}'. Ensure you return a \`Response\` or a \`NextResponse\` in all branches of your handler.`
                       )
                     }
                     if (error) {
+                      const errorRequest = {
+                        url: request.url,
+                        method: request.method,
+                        headers: request.headers,
+                      }
+                      const errorContext = {
+                        routePath: '',
+                      }
+                      context.renderOpts.onRequestError?.(
+                        error,
+                        errorRequest,
+                        errorContext
+                      )
                       throw error
                     }
 
